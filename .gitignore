@@ -1,0 +1,39 @@
+# ─── Secrets / API keys ───
+**/.env
+**/.env.*
+
+# ─── Build artifacts ───
+*.apk
+*.aab
+*.ipa
+
+# ─── Python ───
+__pycache__/
+*.pyc
+*.pyo
+
+# ─── IDE / Editor ───
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+
+# ─── OS files ───
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Flutter / Dart ───
+**/.dart_tool/
+**/.flutter-plugins-dependencies
+**/.pub/
+**/.pub-cache/
+**/build/
+
+# ─── Android Gradle ───
+**/.gradle/
+**/local.properties
+
+# ─── Generated images (vibe) ───
+vibe_images/

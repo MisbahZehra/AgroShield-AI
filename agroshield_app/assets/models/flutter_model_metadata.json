@@ -1,0 +1,61 @@
+{
+  "model_file": "agroshield_fp16.tflite",
+  "model_version": "agroshield-v1.0-2026-08-21",
+  "backbone": "mobilenet_v3_large",
+  "quantization": "fp16",
+  "input_tensor": {
+    "shape": [
+      1,
+      224,
+      224,
+      3
+    ],
+    "dtype": "float32",
+    "normalization": "Apply tf.keras.applications.mobilenet_v3.preprocess_input equivalent BEFORE inference \u2014 this is baked into the Keras model graph, so if you re-export you must replicate it client-side or keep the preprocessing layer in the exported graph.",
+    "resize_method": "bilinear"
+  },
+  "output_tensor": {
+    "shape": [
+      1,
+      32
+    ],
+    "meaning": "softmax probability per class index",
+    "class_mapping_file": "class_index.json"
+  },
+  "confidence_threshold": 0.3,
+  "num_classes": 32,
+  "classes": [
+    "corn_blight",
+    "corn_common_rust",
+    "corn_gray_leaf_spot",
+    "corn_healthy",
+    "rice_bacterial_leaf_blight",
+    "rice_brown_spot",
+    "rice_healthy_rice_leaf",
+    "rice_hispa",
+    "rice_leaf_blast",
+    "rice_leaf_scald",
+    "rice_narrow_brown_leaf_spot",
+    "rice_sheath_blight",
+    "sugarcane_healthy",
+    "sugarcane_mosaic",
+    "sugarcane_redrot",
+    "sugarcane_rust",
+    "sugarcane_yellow",
+    "tomato_bacterial_spot",
+    "tomato_early_blight",
+    "tomato_healthy",
+    "tomato_late_blight",
+    "tomato_leaf_mold",
+    "tomato_mosaic_virus",
+    "tomato_septoria_leaf_spot",
+    "tomato_target_spot",
+    "tomato_twospotted_spider_mite",
+    "tomato_yellow_leaf_curl_virus",
+    "wheat_brownrust",
+    "wheat_healthy",
+    "wheat_mildew",
+    "wheat_septoria",
+    "wheat_yellowrust"
+  ]
+}
