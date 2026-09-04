@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -324,6 +325,12 @@ class RemoteAssistantRepository implements AssistantRepository {
   final http.Client _client;
   final MockAssistantRepository _fallback = MockAssistantRepository();
 
+  /// Timeout for the initial request (Railway cold starts can take 30-40s).
+  static const _coldStartTimeout = Duration(seconds: 60);
+
+  /// Timeout for retry requests (instance should be warm by now).
+  static const _warmTimeout = Duration(seconds: 30);
+
   RemoteAssistantRepository({
     required this.baseUrl,
     http.Client? client,
@@ -345,56 +352,84 @@ class RemoteAssistantRepository implements AssistantRepository {
         scanContext: scanContext,
       );
     }
-    try {
-      // Build the messages payload including conversation history
-      final messages = <Map<String, String>>[];
 
-      // Add prior conversation turns
-      if (conversationHistory != null) {
-        messages.addAll(conversationHistory);
-      }
-
-      // Add the current question
-      messages.add({'role': 'user', 'content': question});
-
-      final body = jsonEncode({
-        'messages': messages,
-        if (lastClassName != null) 'lastClassName': lastClassName,
-        if (scanContext != null) 'scanContext': scanContext,
-      });
-
-      final res = await _client
-          .post(
-            Uri.parse('$baseUrl/chat'),
-            headers: {'Content-Type': 'application/json'},
-            body: body,
-          )
-          .timeout(const Duration(seconds: 25));
-
-      if (res.statusCode == 200) {
-        final data = jsonDecode(res.body) as Map<String, dynamic>;
-        final reply = data['reply'] as String?;
-        if (reply != null && reply.trim().isNotEmpty) {
-          return reply.trim();
-        }
-      }
-
-      // Non-200 or empty reply — fall through to local fallback
-      return await _fallback.answer(
-        question,
-        lastClassName: lastClassName,
-        conversationHistory: conversationHistory,
-        scanContext: scanContext,
-      );
-    } catch (_) {
-      // Backend unreachable — use local knowledge base
-      return _fallback.answer(
-        question,
-        lastClassName: lastClassName,
-        conversationHistory: conversationHistory,
-        scanContext: scanContext,
-      );
+    // Build the messages payload including conversation history
+    final messages = <Map<String, String>>[];
+    if (conversationHistory != null) {
+      messages.addAll(conversationHistory);
     }
+    messages.add({'role': 'user', 'content': question});
+
+    final body = jsonEncode({
+      'messages': messages,
+      if (lastClassName != null) 'lastClassName': lastClassName,
+      if (scanContext != null) 'scanContext': scanContext,
+    });
+
+    // First attempt — generous timeout for cold start
+    try {
+      final reply = await _post(body, _coldStartTimeout);
+      if (reply != null) return reply;
+    } on TimeoutException {
+      // Cold start timeout — retry once (instance may now be warm)
+      try {
+        final reply = await _post(body, _warmTimeout);
+        if (reply != null) return reply;
+      } catch (_) {
+        // Retry also failed — fall through to local
+      }
+    } catch (_) {
+      // Non-timeout error (connection refused, DNS, etc.) — retry once
+      try {
+        final reply = await _post(body, _warmTimeout);
+        if (reply != null) return reply;
+      } catch (_) {
+        // Retry also failed — fall through to local
+      }
+    }
+
+    // All attempts failed — use offline knowledge base
+    return _fallback.answer(
+      question,
+      lastClassName: lastClassName,
+      conversationHistory: conversationHistory,
+      scanContext: scanContext,
+    );
+  }
+
+  /// POST to the backend and return the reply string, or null on failure.
+  /// Also returns null if the reply is an unhelpful error message
+  /// (e.g. "temporarily unavailable") so the caller can use local fallback.
+  Future<String?> _post(String body, Duration timeout) async {
+    final res = await _client
+        .post(
+          Uri.parse('$baseUrl/chat'),
+          headers: {'Content-Type': 'application/json'},
+          body: body,
+        )
+        .timeout(timeout);
+
+    if (res.statusCode == 200) {
+      final data = jsonDecode(res.body) as Map<String, dynamic>;
+      final reply = data['reply'] as String?;
+      if (reply != null && reply.trim().isNotEmpty) {
+        final trimmed = reply.trim();
+        // Detect unhelpful backend error messages and fall through
+        // to the local knowledge base instead of showing them to the user.
+        if (_isUnhelpfulReply(trimmed)) return null;
+        return trimmed;
+      }
+    }
+    return null;
+  }
+
+  /// Returns true if the backend reply is a generic error/unavailable
+  /// message rather than useful content.
+  static bool _isUnhelpfulReply(String reply) {
+    final lower = reply.toLowerCase();
+    return lower.contains('temporarily unavailable') ||
+        lower.contains('check your internet connection') ||
+        lower == 'verified information is currently unavailable.';
   }
 }
 

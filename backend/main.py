@@ -182,6 +182,65 @@ def _build_knowledge_context(class_name: str | None) -> str:
     return f"Diagnosis: {display} ({category}). {tips.get(category, '')}"
 
 
+def _general_fallback(user_msg: str) -> str:
+    """Return a helpful general response when no LLM or knowledge context
+    is available. Matches keywords to give relevant suggestions."""
+    msg = user_msg.lower()
+    if any(k in msg for k in ["wheat", "gehun", "gehu", "kanak"]):
+        return (
+            "I can help with wheat diseases! AgroShield detects: "
+            "Brown Rust, Yellow Rust, Powdery Mildew, and Septoria. "
+            "Scan a wheat leaf for verified treatment recommendations "
+            "including product names and doses."
+        )
+    if any(k in msg for k in ["rice", "chawal", "dhaan", "paddy"]):
+        return (
+            "I can help with rice diseases! AgroShield detects: "
+            "Leaf Blast, Bacterial Leaf Blight, Brown Spot, Hispa, "
+            "and more. Scan a rice leaf for verified treatment info."
+        )
+    if any(k in msg for k in ["corn", "maize", "bhutta"]):
+        return (
+            "I can help with corn diseases! AgroShield detects: "
+            "Blight, Common Rust, and Gray Leaf Spot. "
+            "Scan a corn leaf for verified guidance."
+        )
+    if any(k in msg for k in ["tomato", "tamatar"]):
+        return (
+            "I can help with tomato diseases! AgroShield detects: "
+            "Early Blight, Late Blight, Leaf Mold, Mosaic Virus, "
+            "and more. Scan a tomato leaf for verified guidance."
+        )
+    if any(k in msg for k in ["cotton", "kapas"]):
+        return (
+            "I have verified treatment data for cotton pests: "
+            "Bollworm, Whitefly, and Thrips. "
+            "Product: Lufenuron 5% EC, Dose: 40-330 mL per acre. "
+            "Source: Pakistan-based agrochemical supplier data sheet."
+        )
+    if any(k in msg for k in ["hello", "salam", "hi", "aoa"]):
+        return (
+            "Assalam-o-Alaikum! I am AgroShield AI. "
+            "I can help with crop disease identification and treatment. "
+            "Scan a leaf or ask about wheat rust, rice blast, "
+            "corn diseases, tomato diseases, or cotton pests."
+        )
+    if any(k in msg for k in ["treat", "ilaj", "dawai", "spray", "medicine"]):
+        return (
+            "For verified treatment recommendations, please scan the "
+            "affected leaf first. I support wheat, rice, corn, tomato, "
+            "and sugarcane. After scanning, I'll show exact product "
+            "names, doses, and application timing."
+        )
+    return (
+        "I can help with crop disease questions! Try:\n"
+        "\u2022 Scan a leaf for automatic diagnosis\n"
+        "\u2022 Ask about wheat rust, rice blast, or cotton pests\n"
+        "\u2022 Ask \"prevent\" or \"organic options\" after a scan\n"
+        "I support wheat, rice, corn, tomato, and sugarcane."
+    )
+
+
 def _build_system_prompt(knowledge_ctx: str, scan_ctx: str | None) -> str:
     parts = [
         "You are AgroShield AI, a helpful agricultural assistant for "
@@ -224,6 +283,16 @@ async def health():
     return {"status": "ok"}
 
 
+@app.get("/config")
+async def config_check():
+    """Diagnostic endpoint — shows whether LLM is configured (never exposes the key)."""
+    return {
+        "llm_configured": bool(LLM_API_KEY),
+        "llm_base_url": LLM_BASE_URL,
+        "llm_model": LLM_MODEL,
+    }
+
+
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     # Build context
@@ -249,10 +318,11 @@ async def chat(req: ChatRequest):
     if not LLM_API_KEY:
         if knowledge_ctx:
             return ChatResponse(reply=knowledge_ctx, source="knowledge_base")
+        # No knowledge context either — give a helpful general response
+        user_msg = req.messages[-1].content.lower() if req.messages else ""
         return ChatResponse(
-            reply="Verified information is currently unavailable. "
-                  "Please scan a leaf or ask about general crop management.",
-            source="fallback",
+            reply=_general_fallback(user_msg),
+            source="knowledge_base",
         )
 
     # Call DeepSeek (OpenAI-compatible Chat Completions)
@@ -279,16 +349,18 @@ async def chat(req: ChatRequest):
             )
             return ChatResponse(reply=reply, source="llm")
     except Exception as exc:
+        print(f"LLM call failed: {exc}")
         # LLM call failed — return knowledge base answer if available
         if knowledge_ctx:
             return ChatResponse(
                 reply=f"{knowledge_ctx}\n\n(LLM service unavailable; showing verified knowledge base info.)",
                 source="knowledge_base",
             )
+        # No knowledge context — give a helpful general response
+        user_msg = req.messages[-1].content.lower() if req.messages else ""
         return ChatResponse(
-            reply="The AI assistant is temporarily unavailable. "
-                  "Please check your internet connection and try again.",
-            source="fallback",
+            reply=_general_fallback(user_msg),
+            source="knowledge_base",
         )
 
 
