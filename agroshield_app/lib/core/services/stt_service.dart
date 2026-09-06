@@ -15,6 +15,9 @@ class SttService {
   /// True while the user wants the mic to keep listening.
   bool _shouldListen = false;
 
+  /// Guard against recursive _startSession calls.
+  bool _starting = false;
+
   /// Accumulates recognised words across auto-restart cycles.
   final StringBuffer _buffer = StringBuffer();
 
@@ -32,6 +35,7 @@ class SttService {
         onStatus: _onStatusChange,
         onError: (error) => debugPrint('STT error: $error'),
       );
+      debugPrint('STT init: available=$_available');
       _initialized = true;
     } catch (e) {
       debugPrint('STT init failed: $e');
@@ -41,18 +45,30 @@ class SttService {
 
   /// Called on every STT status change.
   void _onStatusChange(String status) {
-    if (status == 'notListening' && _shouldListen) {
-      // The engine paused — auto-restart to keep listening.
-      _startSession();
+    debugPrint('STT status: $status (shouldListen=$_shouldListen, starting=$_starting)');
+    if (status == 'notListening' && _shouldListen && !_starting) {
+      // The engine paused — auto-restart after a short delay to let
+      // the previous session fully clean up.
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (_shouldListen && !_starting) {
+          _startSession();
+        }
+      });
     }
   }
 
   /// Internal: start a single STT listen session.
   Future<void> _startSession() async {
-    if (!_shouldListen || !_available) return;
+    if (!_shouldListen || !_available || _starting) {
+      debugPrint('STT _startSession skipped: shouldListen=$_shouldListen, available=$_available, starting=$_starting');
+      return;
+    }
+    _starting = true;
     try {
+      debugPrint('STT _startSession: calling listen()...');
       await _stt.listen(
         onResult: (SpeechRecognitionResult result) {
+          debugPrint('STT result: final=${result.finalResult}, words="${result.recognizedWords}"');
           if (result.finalResult && result.recognizedWords.isNotEmpty) {
             if (_buffer.isNotEmpty) _buffer.write(' ');
             _buffer.write(result.recognizedWords);
@@ -66,15 +82,18 @@ class SttService {
           localeId: _localeId,
         ),
       );
+      debugPrint('STT listen() returned successfully');
     } catch (e) {
       debugPrint('STT listen session error: $e');
-      // If a session fails while we should still be listening, retry once
-      // after a short delay.
-      if (_shouldListen) {
-        Future.delayed(const Duration(milliseconds: 500), () {
-          if (_shouldListen) _startSession();
-        });
-      }
+    } finally {
+      _starting = false;
+    }
+    // If listen() blocked until session ended, we need to restart now
+    // (onStatus('notListening') may have fired while _starting was true).
+    if (_shouldListen && _available) {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (_shouldListen && !_starting) _startSession();
+      });
     }
   }
 
@@ -84,15 +103,21 @@ class SttService {
   Future<void> startListening({
     required void Function(String text) onFinished,
   }) async {
-    if (!_available) return;
+    if (!_available) {
+      debugPrint('STT startListening: not available');
+      return;
+    }
+    debugPrint('STT startListening: starting continuous listening');
     _onFinished = onFinished;
     _buffer.clear();
     _shouldListen = true;
+    _starting = false;
     await _startSession();
   }
 
   /// Stop listening and deliver accumulated text.
   Future<void> stopListening() async {
+    debugPrint('STT stopListening: shouldListen was $_shouldListen, buffer="${_buffer.toString()}"');
     _shouldListen = false;
     try {
       await _stt.stop();

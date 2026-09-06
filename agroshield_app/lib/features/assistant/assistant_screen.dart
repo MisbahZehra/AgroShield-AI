@@ -75,6 +75,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
 
   Future<void> _toggleMic() async {
     final stt = ref.read(sttServiceProvider);
+    debugPrint('ToggleMic: listening=$_listening, sttAvailable=${stt.isAvailable}');
 
     // Already listening → stop and send accumulated text
     if (_listening) {
@@ -97,6 +98,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     setState(() => _listening = true);
     await stt.startListening(
       onFinished: (text) {
+        debugPrint('ToggleMic: onFinished called with "${text.length > 50 ? text.substring(0, 50) : text}"');
         if (text.trim().isNotEmpty) {
           _controller.text = text;
           _send(text);
@@ -104,6 +106,17 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
         if (mounted) setState(() => _listening = false);
       },
     );
+    // If we get here and STT didn't actually start, show feedback
+    if (mounted && !stt.isListening) {
+      debugPrint('ToggleMic: STT did not start listening');
+      setState(() => _listening = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Could not start voice recognition. Please try again.')),
+        );
+      }
+    }
   }
 
   @override
