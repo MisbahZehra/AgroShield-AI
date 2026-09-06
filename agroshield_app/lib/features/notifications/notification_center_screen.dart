@@ -28,7 +28,7 @@ class NotificationCenterScreen extends ConsumerWidget {
                 icon: Icons.warning_amber_rounded,
                 color: AppColors.danger,
                 title: l.highRiskAlert('crop'),
-                subtitle: _riskReason(d),
+                subtitle: _riskReason(d, l),
                 time: _formatDate(d.date),
               ));
             }
@@ -126,14 +126,14 @@ class NotificationCenterScreen extends ConsumerWidget {
   String _formatDate(DateTime dt) =>
       '${dt.day}/${dt.month}/${dt.year}';
 
-  String _riskReason(dynamic d) {
+  String _riskReason(dynamic d, AppLocalizations l) {
     final parts = <String>[];
-    if (d.humidity > 75) parts.add('High humidity (${d.humidity}%)');
-    if (d.rainChance > 50) parts.add('Rain likely (${d.rainChance}%)');
-    if (d.tempC > 30) parts.add('Warm (${d.tempC.toStringAsFixed(0)}°C)');
+    if (d.humidity > 75) parts.add('${l.humidity} ${d.humidity}%');
+    if (d.rainChance > 50) parts.add('${l.rainChance} ${d.rainChance}%');
+    if (d.tempC > 30) parts.add('${d.tempC.toStringAsFixed(0)}°C');
     return parts.isEmpty
-        ? 'Elevated disease risk from weather conditions'
-        : '${parts.join(', ')} may increase fungal disease risk.';
+        ? l.noAlerts
+        : parts.join(', ');
   }
 }
 

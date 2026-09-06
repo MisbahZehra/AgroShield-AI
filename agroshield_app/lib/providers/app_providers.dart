@@ -13,6 +13,7 @@ import '../core/errors/app_exceptions.dart';
 import '../core/services/connectivity_service.dart';
 import '../core/services/location_service.dart';
 import '../core/services/tts_service.dart';
+import '../core/services/stt_service.dart';
 import '../data/models/crop.dart';
 import '../data/models/risk_day.dart';
 import '../data/models/scan_record.dart';
@@ -27,6 +28,7 @@ import '../data/repositories/weather_repository_impl.dart';
 import '../domain/repositories/weather_repository.dart';
 
 final ttsServiceProvider = Provider<TtsService>((ref) => TtsService());
+final sttServiceProvider = Provider<SttService>((ref) => SttService());
 final connectivityServiceProvider =
     Provider<ConnectivityService>((ref) => ConnectivityService());
 final locationServiceProvider =

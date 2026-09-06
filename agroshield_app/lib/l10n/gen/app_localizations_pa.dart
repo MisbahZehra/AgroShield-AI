@@ -553,14 +553,14 @@ class AppLocalizationsPa extends AppLocalizations {
   String get farmLocation => 'Farm Location';
 
   @override
-  String get themeMode => 'Theme';
+  String get themeMode => 'تھیم';
 
   @override
-  String get lightMode => 'Light';
+  String get lightMode => 'روشن';
 
   @override
-  String get darkMode => 'Dark';
+  String get darkMode => 'تاریک';
 
   @override
-  String get systemDefault => 'System Default';
+  String get systemDefault => 'سسٹم ڈیفالٹ';
 }

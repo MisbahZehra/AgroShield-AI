@@ -155,5 +155,9 @@
   "selectCropType": "فصل جو قسم",
   "save": "محفوظ ڪريو",
   "voiceNotAvailable": "هن ڊوائيس تي آواز موجود ناهي",
-  "diseaseRiskFor": "{crop} لاءِ بيماريءَ جو خطرو"
+  "diseaseRiskFor": "{crop} لاءِ بيماريءَ جو خطرو",
+  "themeMode": "ٿيم",
+  "lightMode": "روشن",
+  "darkMode": "تاريڪ",
+  "systemDefault": "سسٽم ڊفالٽ"
 }

@@ -155,5 +155,9 @@
   "selectCropType": "فصل دی قسم",
   "save": "محفوظ کرو",
   "voiceNotAvailable": "اس ڈیوائس تے آواز موجود نہیں",
-  "diseaseRiskFor": "{crop} لئی بیماری دا خطرہ"
+  "diseaseRiskFor": "{crop} لئی بیماری دا خطرہ",
+  "themeMode": "تھیم",
+  "lightMode": "روشن",
+  "darkMode": "تاریک",
+  "systemDefault": "سسٹم ڈیفالٹ"
 }

@@ -23,6 +23,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   final _controller = TextEditingController();
   final _messages = <_Message>[];
   bool _busy = false;
+  bool _listening = false;
 
   @override
   void dispose() {
@@ -70,6 +71,38 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
         _busy = false;
       });
     }
+  }
+
+  Future<void> _toggleMic() async {
+    if (_listening) {
+      await ref.read(sttServiceProvider).stopListening();
+      if (mounted) setState(() => _listening = false);
+      return;
+    }
+    final stt = ref.read(sttServiceProvider);
+    if (!stt.isAvailable) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text(
+                  'Speech recognition not available on this device')),
+        );
+      }
+      return;
+    }
+    setState(() => _listening = true);
+    await stt.startListening(
+      onResult: (text) {
+        if (text.trim().isNotEmpty) {
+          _controller.text = text;
+          _send(text);
+        }
+        if (mounted) setState(() => _listening = false);
+      },
+      onDone: () {
+        if (mounted) setState(() => _listening = false);
+      },
+    );
   }
 
   @override
@@ -126,7 +159,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                         decoration: BoxDecoration(
                           color: m.fromUser
                               ? AppColors.primary
-                              : Colors.white,
+                              : Theme.of(context).cardColor,
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: Text(
@@ -167,6 +200,35 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                       decoration:
                           InputDecoration(hintText: l.askAgroShield),
                       onSubmitted: _send,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: _toggleMic,
+                    icon: Icon(
+                      _listening ? Icons.mic : Icons.mic_none,
+                      color: _listening ? AppColors.danger : AppColors.primary,
+                    ),
+                    style: IconButton.styleFrom(
+                      backgroundColor: _listening
+                          ? AppColors.dangerLight
+                          : AppColors.primaryLight,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: _toggleMic,
+                    tooltip: 'Voice input',
+                    icon: Icon(
+                      _listening ? Icons.stop : Icons.mic,
+                      color: _listening
+                          ? Colors.white
+                          : AppColors.primary,
+                    ),
+                    style: IconButton.styleFrom(
+                      backgroundColor: _listening
+                          ? AppColors.danger
+                          : AppColors.primaryLight,
                     ),
                   ),
                   const SizedBox(width: 8),

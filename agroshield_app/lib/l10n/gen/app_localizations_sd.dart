@@ -553,14 +553,14 @@ class AppLocalizationsSd extends AppLocalizations {
   String get farmLocation => 'Farm Location';
 
   @override
-  String get themeMode => 'Theme';
+  String get themeMode => 'ٿيم';
 
   @override
-  String get lightMode => 'Light';
+  String get lightMode => 'روشن';
 
   @override
-  String get darkMode => 'Dark';
+  String get darkMode => 'تاريڪ';
 
   @override
-  String get systemDefault => 'System Default';
+  String get systemDefault => 'سسٽم ڊفالٽ';
 }

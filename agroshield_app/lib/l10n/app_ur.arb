@@ -155,5 +155,9 @@
   "selectCropType": "فصل کی قسم",
   "save": "محفوظ کریں",
   "voiceNotAvailable": "اس ڈیوائس پر آواز دستیاب نہیں",
-  "diseaseRiskFor": "{crop} کے لیے بیماری کا خطرہ"
+  "diseaseRiskFor": "{crop} کے لیے بیماری کا خطرہ",
+  "themeMode": "تھیم",
+  "lightMode": "روشن",
+  "darkMode": "تاریک",
+  "systemDefault": "سسٹم ڈیفالٹ"
 }

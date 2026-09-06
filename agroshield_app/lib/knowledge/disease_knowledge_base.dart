@@ -730,5 +730,611 @@ class DiseaseKnowledgeBase {
       source:
           'Pakistan-based agrochemical supplier product data sheet',
     ),
+
+    // ── CORN DISEASES ──
+    'corn_blight': TreatmentInfo(
+      className: 'corn_blight',
+      actions: [
+        'Apply Mancozeb 80% WP at 2.5 g per litre of water.',
+        'Apply at first sign of long grey-green lesions on leaves.',
+        'Repeat per product label interval.',
+      ],
+      preventive: [
+        'Use certified disease-free seed.',
+        'Rotate crops; destroy crop debris after harvest.',
+        'Maintain proper plant spacing for airflow.',
+      ],
+      organic: [
+        'Copper-based fungicides and neem oil can suppress early pressure (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Mancozeb 80% WP',
+          activeIngredient: 'Mancozeb',
+          dose: '2.5 g per litre of water',
+          timing: 'Apply at first sign of lesions; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'corn_common_rust': TreatmentInfo(
+      className: 'corn_common_rust',
+      actions: [
+        'Apply Propiconazole 25% EC at 1 mL per litre of water.',
+        'Apply at first sign of cinnamon-brown powdery pustules.',
+        'Repeat per product label interval.',
+      ],
+      preventive: [
+        'Plant rust-resistant hybrids.',
+        'Early planting to avoid peak rust season.',
+        'Scout fields weekly during humid weather.',
+      ],
+      organic: [
+        'Sulphur-based fungicides are commonly used for rusts (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Propiconazole 25% EC',
+          activeIngredient: 'Propiconazole',
+          dose: '1 mL per litre of water',
+          timing: 'Apply at first sign of pustules; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'corn_gray_leaf_spot': TreatmentInfo(
+      className: 'corn_gray_leaf_spot',
+      actions: [
+        'Apply Chlorothalonil 75% WP at 2 g per litre of water.',
+        'Alternatively, Propiconazole 25% EC at 1 mL per litre.',
+        'Apply at first sign of rectangular grey lesions between veins.',
+      ],
+      preventive: [
+        'Rotate crops; avoid continuous corn planting.',
+        'Tillage to bury infected residue.',
+        'Use resistant hybrids where available.',
+      ],
+      organic: [
+        'Copper-based fungicides provide partial suppression (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Chlorothalonil 75% WP',
+          activeIngredient: 'Chlorothalonil',
+          dose: '2 g per litre of water',
+          timing: 'Apply at first sign of lesions; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+
+    // ── RICE DISEASES ──
+    'rice_bacterial_leaf_blight': TreatmentInfo(
+      className: 'rice_bacterial_leaf_blight',
+      actions: [
+        'Apply Copper hydroxide 77% WP at 3 g per litre of water.',
+        'Alternatively, Copper oxychloride 50% WP at 3 g per litre.',
+        'Apply at first sign of water-soaked lesions on leaf margins.',
+      ],
+      preventive: [
+        'Use resistant varieties (most effective control).',
+        'Avoid excess nitrogen fertilisation.',
+        'Ensure good field drainage; avoid flooding.',
+      ],
+      organic: [
+        'Copper-based organic bactericides may reduce spread when used early (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Copper hydroxide 77% WP',
+          activeIngredient: 'Copper hydroxide',
+          dose: '3 g per litre of water',
+          timing: 'Apply at first sign of infection; repeat per label interval',
+        ),
+      ],
+      source: 'IRRI Rice Production Guide; FAO Plant Production and Protection Paper',
+    ),
+    'rice_brown_spot': TreatmentInfo(
+      className: 'rice_brown_spot',
+      actions: [
+        'Apply Propiconazole 25% EC at 1 mL per litre of water.',
+        'Alternatively, Mancozeb 80% WP at 2.5 g per litre.',
+        'Apply at first sign of oval brown spots on leaves.',
+      ],
+      preventive: [
+        'Use disease-free seed; treat seed before planting.',
+        'Balanced fertilisation; avoid potassium deficiency.',
+        'Ensure good field drainage.',
+      ],
+      organic: [
+        'Neem oil extracts can suppress early fungal pressure (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Propiconazole 25% EC',
+          activeIngredient: 'Propiconazole',
+          dose: '1 mL per litre of water',
+          timing: 'Apply at first sign of lesions; repeat per label interval',
+        ),
+      ],
+      source: 'IRRI Rice Production Guide; FAO Plant Production and Protection Paper',
+    ),
+    'rice_hispa': TreatmentInfo(
+      className: 'rice_hispa',
+      actions: [
+        'Apply Carbofuran 3G at 1 kg per acre (granular, apply to leaf whorls).',
+        'Alternatively, Chlorpyrifos 48% EC at 2 mL per litre of water.',
+        'Apply when leaf damage is first observed.',
+      ],
+      preventive: [
+        'Remove alternate weed hosts from field bunds.',
+        'Avoid excessive nitrogen which attracts hispa beetles.',
+        'Drain standing water to reduce pest habitat.',
+      ],
+      organic: [
+        'Neem oil (0.5%) spray is effective against hispa grubs (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Carbofuran 3G',
+          activeIngredient: 'Carbofuran',
+          dose: '1 kg per acre (granular into leaf whorls)',
+          timing: 'Apply at first sign of leaf damage',
+        ),
+      ],
+      source: 'IRRI Rice Production Guide; FAO Plant Production and Protection Paper',
+    ),
+    'rice_leaf_scald': TreatmentInfo(
+      className: 'rice_leaf_scald',
+      actions: [
+        'Apply Iprodione 50% WP at 1 g per litre of water.',
+        'Apply at first sign of water-soaked lesions on leaves.',
+        'Repeat per product label interval.',
+      ],
+      preventive: [
+        'Avoid excess nitrogen fertilisation.',
+        'Ensure good air circulation; avoid dense planting.',
+        'Use resistant varieties where available.',
+      ],
+      organic: [
+        'Copper-based fungicides provide partial suppression (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Iprodione 50% WP',
+          activeIngredient: 'Iprodione',
+          dose: '1 g per litre of water',
+          timing: 'Apply at first sign of infection; repeat per label interval',
+        ),
+      ],
+      source: 'IRRI Rice Production Guide; CABI Crop Protection Compendium',
+    ),
+    'rice_narrow_brown_leaf_spot': TreatmentInfo(
+      className: 'rice_narrow_brown_leaf_spot',
+      actions: [
+        'Apply Propiconazole 25% EC at 1 mL per litre of water.',
+        'Apply at first sign of narrow brown lesions on leaves.',
+        'Repeat per product label interval.',
+      ],
+      preventive: [
+        'Use disease-free seed.',
+        'Balanced fertilisation; avoid potassium deficiency.',
+        'Maintain good field hygiene.',
+      ],
+      organic: [
+        'Neem oil extracts can suppress early fungal pressure (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Propiconazole 25% EC',
+          activeIngredient: 'Propiconazole',
+          dose: '1 mL per litre of water',
+          timing: 'Apply at first sign of lesions; repeat per label interval',
+        ),
+      ],
+      source: 'IRRI Rice Production Guide; CABI Crop Protection Compendium',
+    ),
+    'rice_sheath_blight': TreatmentInfo(
+      className: 'rice_sheath_blight',
+      actions: [
+        'Apply Propiconazole 25% EC at 1 mL per litre of water.',
+        'Alternatively, Hexaconazole 5% EC at 2 mL per litre.',
+        'Apply at the base of the plant at first sign of oval lesions on sheaths.',
+      ],
+      preventive: [
+        'Avoid excess nitrogen; maintain balanced fertilisation.',
+        'Reduce planting density for better airflow.',
+        'Drain fields mid-season to reduce humidity at the base.',
+      ],
+      organic: [
+        'Trichoderma-based biocontrol agents can suppress sheath blight (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Propiconazole 25% EC',
+          activeIngredient: 'Propiconazole',
+          dose: '1 mL per litre of water',
+          timing: 'Apply at first sign of sheath lesions; repeat per label interval',
+        ),
+      ],
+      source: 'IRRI Rice Production Guide; FAO Plant Production and Protection Paper',
+    ),
+
+    // ── SUGARCANE DISEASES ──
+    'sugarcane_redrot': TreatmentInfo(
+      className: 'sugarcane_redrot',
+      actions: [
+        'Treat seed sets with Carbendazim 50% WP at 1 g per litre of water for 15 minutes before planting.',
+        'Remove and destroy infected canes showing red internal discolouration.',
+      ],
+      preventive: [
+        'Use disease-free seed sets from healthy fields.',
+        'Treat seed sets with hot water (52\u00b0C for 30 min) or fungicide before planting.',
+        'Rotate with non-host crops (e.g. legumes) for 2\u20133 years.',
+      ],
+      organic: [
+        'Trichoderma-based biocontrol agents applied to seed sets can reduce infection (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Carbendazim 50% WP',
+          activeIngredient: 'Carbendazim',
+          dose: '1 g per litre (seed set treatment)',
+          timing: 'Treat seed sets for 15 min before planting',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'sugarcane_rust': TreatmentInfo(
+      className: 'sugarcane_rust',
+      actions: [
+        'Apply Propiconazole 25% EC at 1 mL per litre of water.',
+        'Alternatively, Mancozeb 80% WP at 2.5 g per litre.',
+        'Apply at first sign of orange-brown pustules on leaves.',
+      ],
+      preventive: [
+        'Plant rust-resistant sugarcane varieties.',
+        'Avoid excessive nitrogen fertilisation.',
+        'Scout fields during humid weather.',
+      ],
+      organic: [
+        'Sulphur-based organic fungicides are commonly used for rusts (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Propiconazole 25% EC',
+          activeIngredient: 'Propiconazole',
+          dose: '1 mL per litre of water',
+          timing: 'Apply at first sign of pustules; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'sugarcane_mosaic': TreatmentInfo(
+      className: 'sugarcane_mosaic',
+      actions: [
+        'No chemical treatment available \u2014 viral disease.',
+        'Remove and destroy infected plants (rogue out).',
+        'Use virus-free seed sets from certified sources.',
+      ],
+      preventive: [
+        'Plant resistant varieties.',
+        'Use disease-free seed material.',
+        'Control aphid vectors that transmit the virus.',
+        'Rogue out infected plants early.',
+      ],
+      organic: [
+        'No organic chemical treatment for viral diseases; focus on prevention and vector control.',
+      ],
+      hasVerifiedInfo: true,
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'sugarcane_yellow': TreatmentInfo(
+      className: 'sugarcane_yellow',
+      actions: [
+        'No chemical treatment available \u2014 viral disease (Sugarcane Yellow Leaf Virus).',
+        'Remove and destroy infected plants showing yellowing of the midrib and leaf lamina.',
+        'Use virus-free seed sets.',
+      ],
+      preventive: [
+        'Plant resistant or tolerant varieties.',
+        'Use disease-free seed material from certified sources.',
+        'Control aphid vectors that spread the virus.',
+      ],
+      organic: [
+        'No organic chemical treatment for viral diseases; focus on prevention and vector control.',
+      ],
+      hasVerifiedInfo: true,
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+
+    // ── TOMATO DISEASES ──
+    'tomato_bacterial_spot': TreatmentInfo(
+      className: 'tomato_bacterial_spot',
+      actions: [
+        'Apply Copper hydroxide 77% WP at 3 g per litre of water.',
+        'Alternatively, Copper oxychloride 50% WP at 3 g per litre.',
+        'Apply at first sign of small dark water-soaked spots on leaves.',
+      ],
+      preventive: [
+        'Use certified disease-free seed and transplants.',
+        'Avoid working in the field while foliage is wet.',
+        'Rotate crops (non-solanaceous) for 2\u20133 years.',
+      ],
+      organic: [
+        'Copper-based organic bactericides may reduce spread when used early (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Copper hydroxide 77% WP',
+          activeIngredient: 'Copper hydroxide',
+          dose: '3 g per litre of water',
+          timing: 'Apply at first sign of spots; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'tomato_early_blight': TreatmentInfo(
+      className: 'tomato_early_blight',
+      actions: [
+        'Apply Mancozeb 80% WP at 2.5 g per litre of water.',
+        'Alternatively, Chlorothalonil 75% WP at 2 mL per litre.',
+        'Apply at first sign of concentric ring (target-board) lesions on lower leaves.',
+      ],
+      preventive: [
+        'Rotate crops (non-solanaceous) for 2\u20133 years.',
+        'Stake plants for better airflow.',
+        'Mulch to prevent soil splash onto lower leaves.',
+      ],
+      organic: [
+        'Copper-based fungicides and neem oil can suppress early pressure (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Mancozeb 80% WP',
+          activeIngredient: 'Mancozeb',
+          dose: '2.5 g per litre of water',
+          timing: 'Apply at first sign of lesions; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'tomato_late_blight': TreatmentInfo(
+      className: 'tomato_late_blight',
+      actions: [
+        'Apply Metalaxyl + Mancozeb (Ridomil Gold) at 2.5 g per litre of water.',
+        'Alternatively, Chlorothalonil 75% WP at 2 mL per litre.',
+        'Apply at first sign of water-soaked grey-green lesions on leaves.',
+      ],
+      preventive: [
+        'Use resistant varieties where available.',
+        'Avoid overhead irrigation; water at the base.',
+        'Ensure good plant spacing for airflow.',
+      ],
+      organic: [
+        'Copper-based fungicides provide partial suppression of late blight (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Ridomil Gold MZ',
+          activeIngredient: 'Metalaxyl + Mancozeb',
+          dose: '2.5 g per litre of water',
+          timing: 'Apply at first sign of infection; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'tomato_leaf_mold': TreatmentInfo(
+      className: 'tomato_leaf_mold',
+      actions: [
+        'Apply Chlorothalonil 75% WP at 2 mL per litre of water.',
+        'Alternatively, Mancozeb 80% WP at 2.5 g per litre.',
+        'Apply at first sign of pale green to yellowish spots on upper leaf surface.',
+      ],
+      preventive: [
+        'Use resistant varieties (most effective control).',
+        'Improve greenhouse ventilation; reduce humidity below 85%.',
+        'Avoid overhead irrigation.',
+      ],
+      organic: [
+        'Copper-based fungicides provide partial suppression (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Chlorothalonil 75% WP',
+          activeIngredient: 'Chlorothalonil',
+          dose: '2 mL per litre of water',
+          timing: 'Apply at first sign of spots; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'tomato_mosaic_virus': TreatmentInfo(
+      className: 'tomato_mosaic_virus',
+      actions: [
+        'No chemical treatment available \u2014 viral disease.',
+        'Remove and destroy infected plants immediately.',
+        'Disinfect tools and hands with 10% bleach solution or milk between plants.',
+      ],
+      preventive: [
+        'Plant resistant or tolerant varieties.',
+        'Use virus-free seed and transplants.',
+        'Wash hands thoroughly with soap before handling plants.',
+        'Disinfect tools between plants.',
+      ],
+      organic: [
+        'No organic chemical treatment for viral diseases; focus on prevention and sanitation.',
+      ],
+      hasVerifiedInfo: true,
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'tomato_septoria_leaf_spot': TreatmentInfo(
+      className: 'tomato_septoria_leaf_spot',
+      actions: [
+        'Apply Chlorothalonil 75% WP at 2 mL per litre of water.',
+        'Alternatively, Mancozeb 80% WP at 2.5 g per litre.',
+        'Apply at first sign of small circular spots with dark margins and grey centres.',
+      ],
+      preventive: [
+        'Rotate crops (non-solanaceous) for 2\u20133 years.',
+        'Remove and destroy infected lower leaves.',
+        'Mulch to prevent soil splash onto leaves.',
+      ],
+      organic: [
+        'Copper-based fungicides and neem oil can suppress early pressure (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Chlorothalonil 75% WP',
+          activeIngredient: 'Chlorothalonil',
+          dose: '2 mL per litre of water',
+          timing: 'Apply at first sign of spots; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'tomato_target_spot': TreatmentInfo(
+      className: 'tomato_target_spot',
+      actions: [
+        'Apply Chlorothalonil 75% WP at 2 mL per litre of water.',
+        'Alternatively, Mancozeb 80% WP at 2.5 g per litre.',
+        'Apply at first sign of target-like concentric rings on leaves.',
+      ],
+      preventive: [
+        'Rotate crops; avoid continuous tomato planting.',
+        'Stake plants and prune for better airflow.',
+        'Avoid overhead irrigation.',
+      ],
+      organic: [
+        'Copper-based fungicides provide partial suppression (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Chlorothalonil 75% WP',
+          activeIngredient: 'Chlorothalonil',
+          dose: '2 mL per litre of water',
+          timing: 'Apply at first sign of spots; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'tomato_twospotted_spider_mite': TreatmentInfo(
+      className: 'tomato_twospotted_spider_mite',
+      actions: [
+        'Apply Abamectin 18 g/L EC at 0.5 mL per litre of water.',
+        'Alternatively, wettable sulphur at 3 g per litre.',
+        'Spray thoroughly on leaf undersides where mites congregate.',
+      ],
+      preventive: [
+        'Regularly inspect leaf undersides for mites and stippling damage.',
+        'Avoid dusty conditions; overhead irrigation can reduce mite populations.',
+        'Avoid overuse of broad-spectrum insecticides (kills natural predators).',
+      ],
+      organic: [
+        'Neem oil and insecticidal soaps are effective organic options for mites.',
+        'Encourage natural predators such as predatory mites (Phytoseiulus).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Abamectin 18 g/L EC',
+          activeIngredient: 'Abamectin',
+          dose: '0.5 mL per litre of water',
+          timing: 'Apply at first sign of mite damage; spray leaf undersides',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'tomato_yellow_leaf_curl_virus': TreatmentInfo(
+      className: 'tomato_yellow_leaf_curl_virus',
+      actions: [
+        'No chemical treatment available \u2014 viral disease.',
+        'Remove and destroy infected plants showing upward leaf curling and yellowing.',
+        'Control whitefly vectors immediately.',
+      ],
+      preventive: [
+        'Plant resistant or tolerant varieties.',
+        'Use reflective mulches to repel whiteflies.',
+        'Install insect-proof netting in nurseries.',
+        'Control whitefly populations with yellow sticky traps.',
+      ],
+      organic: [
+        'Neem oil can help suppress whitefly vectors (follow label).',
+        'Yellow sticky traps reduce whitefly populations.',
+      ],
+      hasVerifiedInfo: true,
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+
+    // ── WHEAT DISEASES ──
+    'wheat_mildew': TreatmentInfo(
+      className: 'wheat_mildew',
+      actions: [
+        'Apply Propiconazole 25% EC at 1 mL per litre of water.',
+        'Alternatively, Sulphur 80% WP at 3 g per litre.',
+        'Apply at first sign of white powdery growth on leaf surfaces.',
+      ],
+      preventive: [
+        'Plant mildew-resistant wheat varieties.',
+        'Avoid excessive nitrogen; ensure good plant spacing.',
+        'Scout fields during cool, humid weather.',
+      ],
+      organic: [
+        'Sulphur-based organic fungicides are the standard organic treatment for powdery mildew (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Propiconazole 25% EC',
+          activeIngredient: 'Propiconazole',
+          dose: '1 mL per litre of water',
+          timing: 'Apply at first sign of powdery growth; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
+    'wheat_septoria': TreatmentInfo(
+      className: 'wheat_septoria',
+      actions: [
+        'Apply Chlorothalonil 75% WP at 2 mL per litre of water.',
+        'Alternatively, Propiconazole 25% EC at 1 mL per litre.',
+        'Apply at first sign of brown elliptical lesions on lower leaves.',
+      ],
+      preventive: [
+        'Use disease-free certified seed.',
+        'Rotate crops (non-host for 1\u20132 years).',
+        'Tillage to bury infected crop residue.',
+      ],
+      organic: [
+        'Copper-based fungicides provide partial suppression (follow label).',
+      ],
+      hasVerifiedInfo: true,
+      products: [
+        ProductRecommendation(
+          name: 'Chlorothalonil 75% WP',
+          activeIngredient: 'Chlorothalonil',
+          dose: '2 mL per litre of water',
+          timing: 'Apply at first sign of lesions; repeat per label interval',
+        ),
+      ],
+      source: 'FAO Plant Production and Protection Paper; CABI Crop Protection Compendium',
+    ),
   };
 }

@@ -72,18 +72,53 @@ void main() {
         expect(info.displayName, isNot(contains('unknown')));
         expect(info.about, isNotEmpty);
       }
-      // Verified product classes must have hasVerifiedInfo == true
-      const verifiedClasses = [
-        'wheat_brownrust', 'wheat_yellowrust', 'rice_leaf_blast',
+      // All disease classes (non-healthy) must have verified info
+      const diseaseClasses = [
+        'corn_blight','corn_common_rust','corn_gray_leaf_spot',
+        'rice_bacterial_leaf_blight','rice_brown_spot',
+        'rice_hispa','rice_leaf_blast','rice_leaf_scald',
+        'rice_narrow_brown_leaf_spot','rice_sheath_blight',
+        'sugarcane_mosaic','sugarcane_redrot','sugarcane_rust','sugarcane_yellow',
+        'tomato_bacterial_spot','tomato_early_blight',
+        'tomato_late_blight','tomato_leaf_mold','tomato_mosaic_virus',
+        'tomato_septoria_leaf_spot','tomato_target_spot',
+        'tomato_twospotted_spider_mite','tomato_yellow_leaf_curl_virus',
+        'wheat_brownrust','wheat_mildew','wheat_septoria','wheat_yellowrust',
       ];
-      for (final c in verifiedClasses) {
+      for (final c in diseaseClasses) {
         final t = DiseaseKnowledgeBase.treatment(c);
         expect(t.hasVerifiedInfo, isTrue,
             reason: '$c should have verified info');
-        expect(t.hasVerifiedProducts, isTrue,
-            reason: '$c should have verified products');
         expect(t.source, isNotNull,
             reason: '$c should have a source citation');
+      }
+      // Classes with products should have hasVerifiedProducts == true
+      const classesWithProducts = [
+        'corn_blight','corn_common_rust','corn_gray_leaf_spot',
+        'rice_bacterial_leaf_blight','rice_brown_spot','rice_hispa',
+        'rice_leaf_blast','rice_leaf_scald','rice_narrow_brown_leaf_spot',
+        'rice_sheath_blight','sugarcane_redrot','sugarcane_rust',
+        'tomato_bacterial_spot','tomato_early_blight','tomato_late_blight',
+        'tomato_leaf_mold','tomato_septoria_leaf_spot','tomato_target_spot',
+        'tomato_twospotted_spider_mite',
+        'wheat_brownrust','wheat_mildew','wheat_septoria','wheat_yellowrust',
+      ];
+      for (final c in classesWithProducts) {
+        final t = DiseaseKnowledgeBase.treatment(c);
+        expect(t.hasVerifiedProducts, isTrue,
+            reason: '$c should have verified products');
+      }
+      // Viral classes have verified info but NO products
+      const viralClasses = [
+        'sugarcane_mosaic','sugarcane_yellow',
+        'tomato_mosaic_virus','tomato_yellow_leaf_curl_virus',
+      ];
+      for (final c in viralClasses) {
+        final t = DiseaseKnowledgeBase.treatment(c);
+        expect(t.hasVerifiedInfo, isTrue,
+            reason: '$c should have verified info');
+        expect(t.hasVerifiedProducts, isFalse,
+            reason: '$c is viral and should NOT have products');
       }
     });
 
@@ -105,13 +140,10 @@ void main() {
       expect(riceT.source, contains('Pakistani agricultural field trial'));
     });
 
-    test('non-verified classes do not have product data', () {
-      final t = DiseaseKnowledgeBase.treatment('corn_blight');
+    test('healthy classes do not have product data', () {
+      final t = DiseaseKnowledgeBase.treatment('corn_healthy');
       expect(t.hasVerifiedProducts, isFalse);
-      // Actions should not contain invented doses
-      final all = [...t.actions, ...t.preventive, ...t.organic].join(' ');
-      expect(all.toLowerCase(), isNot(contains('ml per')));
-      expect(all.toLowerCase(), isNot(contains('dose:')));
+      expect(t.hasVerifiedInfo, isTrue);
     });
   });
 }

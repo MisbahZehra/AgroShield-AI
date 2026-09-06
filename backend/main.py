@@ -130,6 +130,151 @@ _VERIFIED_PRODUCTS: dict = {
         "prevention": "Avoid excess nitrogen. Ensure good field drainage. Use resistant varieties where available.",
         "source": "Pakistani agricultural field trial (rice blast fungicide efficacy study)",
     },
+    # Corn diseases
+    "corn_blight": {
+        "products": [{"name": "Mancozeb 80% WP", "active": "Mancozeb",
+             "dose": "2.5 g per litre of water", "timing": "Apply at first sign of lesions"}],
+        "prevention": "Use certified disease-free seed. Rotate crops; destroy crop debris. Maintain plant spacing.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "corn_common_rust": {
+        "products": [{"name": "Propiconazole 25% EC", "active": "Propiconazole",
+             "dose": "1 mL per litre of water", "timing": "Apply at first sign of pustules"}],
+        "prevention": "Plant rust-resistant hybrids. Early planting. Scout weekly during humid weather.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "corn_gray_leaf_spot": {
+        "products": [{"name": "Chlorothalonil 75% WP", "active": "Chlorothalonil",
+             "dose": "2 g per litre of water", "timing": "Apply at first sign of lesions"}],
+        "prevention": "Rotate crops. Tillage to bury residue. Use resistant hybrids.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    # Rice diseases
+    "rice_bacterial_leaf_blight": {
+        "products": [{"name": "Copper hydroxide 77% WP", "active": "Copper hydroxide",
+             "dose": "3 g per litre of water", "timing": "Apply at first sign of infection"}],
+        "prevention": "Use resistant varieties. Avoid excess nitrogen. Ensure good drainage.",
+        "source": "IRRI Rice Production Guide; FAO Plant Production and Protection Paper",
+    },
+    "rice_brown_spot": {
+        "products": [{"name": "Propiconazole 25% EC", "active": "Propiconazole",
+             "dose": "1 mL per litre of water", "timing": "Apply at first sign of lesions"}],
+        "prevention": "Use disease-free seed. Balanced fertilisation. Good field drainage.",
+        "source": "IRRI Rice Production Guide; FAO Plant Production and Protection Paper",
+    },
+    "rice_hispa": {
+        "products": [{"name": "Carbofuran 3G", "active": "Carbofuran",
+             "dose": "1 kg per acre (granular into leaf whorls)", "timing": "Apply at first sign of leaf damage"}],
+        "prevention": "Remove weed hosts. Avoid excess nitrogen. Drain standing water.",
+        "source": "IRRI Rice Production Guide; FAO Plant Production and Protection Paper",
+    },
+    "rice_leaf_scald": {
+        "products": [{"name": "Iprodione 50% WP", "active": "Iprodione",
+             "dose": "1 g per litre of water", "timing": "Apply at first sign of infection"}],
+        "prevention": "Avoid excess nitrogen. Good air circulation. Resistant varieties.",
+        "source": "IRRI Rice Production Guide; CABI Crop Protection Compendium",
+    },
+    "rice_narrow_brown_leaf_spot": {
+        "products": [{"name": "Propiconazole 25% EC", "active": "Propiconazole",
+             "dose": "1 mL per litre of water", "timing": "Apply at first sign of lesions"}],
+        "prevention": "Use disease-free seed. Balanced fertilisation. Good field hygiene.",
+        "source": "IRRI Rice Production Guide; CABI Crop Protection Compendium",
+    },
+    "rice_sheath_blight": {
+        "products": [{"name": "Propiconazole 25% EC", "active": "Propiconazole",
+             "dose": "1 mL per litre of water", "timing": "Apply at first sign of sheath lesions"}],
+        "prevention": "Avoid excess nitrogen. Reduce planting density. Drain mid-season.",
+        "source": "IRRI Rice Production Guide; FAO Plant Production and Protection Paper",
+    },
+    # Sugarcane diseases
+    "sugarcane_redrot": {
+        "products": [{"name": "Carbendazim 50% WP", "active": "Carbendazim",
+             "dose": "1 g per litre (seed set treatment)", "timing": "Treat seed sets 15 min before planting"}],
+        "prevention": "Use disease-free seed sets. Hot water or fungicide treatment. Rotate crops.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "sugarcane_rust": {
+        "products": [{"name": "Propiconazole 25% EC", "active": "Propiconazole",
+             "dose": "1 mL per litre of water", "timing": "Apply at first sign of pustules"}],
+        "prevention": "Plant resistant varieties. Avoid excess nitrogen. Scout during humid weather.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "sugarcane_mosaic": {
+        "products": [],
+        "prevention": "No chemical treatment (viral). Use disease-free seed. Control aphid vectors. Rogue out infected plants.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "sugarcane_yellow": {
+        "products": [],
+        "prevention": "No chemical treatment (viral). Use virus-free seed material. Control aphid vectors.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    # Tomato diseases
+    "tomato_bacterial_spot": {
+        "products": [{"name": "Copper hydroxide 77% WP", "active": "Copper hydroxide",
+             "dose": "3 g per litre of water", "timing": "Apply at first sign of spots"}],
+        "prevention": "Use disease-free seed/transplants. Avoid wet foliage work. Rotate 2-3 years.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "tomato_early_blight": {
+        "products": [{"name": "Mancozeb 80% WP", "active": "Mancozeb",
+             "dose": "2.5 g per litre of water", "timing": "Apply at first sign of lesions"}],
+        "prevention": "Rotate crops. Stake plants. Mulch to prevent soil splash.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "tomato_late_blight": {
+        "products": [{"name": "Ridomil Gold MZ", "active": "Metalaxyl + Mancozeb",
+             "dose": "2.5 g per litre of water", "timing": "Apply at first sign of infection"}],
+        "prevention": "Use resistant varieties. Avoid overhead irrigation. Good spacing.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "tomato_leaf_mold": {
+        "products": [{"name": "Chlorothalonil 75% WP", "active": "Chlorothalonil",
+             "dose": "2 mL per litre of water", "timing": "Apply at first sign of spots"}],
+        "prevention": "Use resistant varieties. Improve ventilation. Avoid overhead irrigation.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "tomato_mosaic_virus": {
+        "products": [],
+        "prevention": "No chemical treatment (viral). Use resistant varieties. Disinfect tools. Virus-free seed.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "tomato_septoria_leaf_spot": {
+        "products": [{"name": "Chlorothalonil 75% WP", "active": "Chlorothalonil",
+             "dose": "2 mL per litre of water", "timing": "Apply at first sign of spots"}],
+        "prevention": "Rotate crops. Remove infected leaves. Mulch to prevent soil splash.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "tomato_target_spot": {
+        "products": [{"name": "Chlorothalonil 75% WP", "active": "Chlorothalonil",
+             "dose": "2 mL per litre of water", "timing": "Apply at first sign of spots"}],
+        "prevention": "Rotate crops. Stake and prune. Avoid overhead irrigation.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "tomato_twospotted_spider_mite": {
+        "products": [{"name": "Abamectin 18 g/L EC", "active": "Abamectin",
+             "dose": "0.5 mL per litre of water", "timing": "Apply at first sign of mite damage; spray leaf undersides"}],
+        "prevention": "Inspect leaf undersides. Avoid dusty conditions. Avoid broad-spectrum insecticides.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "tomato_yellow_leaf_curl_virus": {
+        "products": [],
+        "prevention": "No chemical treatment (viral). Use resistant varieties. Reflective mulches. Control whitefly vectors.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    # Wheat diseases
+    "wheat_mildew": {
+        "products": [{"name": "Propiconazole 25% EC", "active": "Propiconazole",
+             "dose": "1 mL per litre of water", "timing": "Apply at first sign of powdery growth"}],
+        "prevention": "Plant mildew-resistant varieties. Avoid excess nitrogen. Good spacing.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
+    "wheat_septoria": {
+        "products": [{"name": "Chlorothalonil 75% WP", "active": "Chlorothalonil",
+             "dose": "2 mL per litre of water", "timing": "Apply at first sign of lesions"}],
+        "prevention": "Use disease-free certified seed. Rotate crops. Tillage to bury residue.",
+        "source": "FAO Plant Production and Protection Paper; CABI Crop Protection Compendium",
+    },
 }
 
 def _build_knowledge_context(class_name: str | None) -> str:
@@ -325,9 +470,9 @@ async def chat(req: ChatRequest):
             source="knowledge_base",
         )
 
-    # Call DeepSeek (OpenAI-compatible Chat Completions)
+    # Call LLM (OpenAI-compatible Chat Completions)
     try:
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient(timeout=60.0) as client:
             resp = await client.post(
                 f"{LLM_BASE_URL}/chat/completions",
                 headers={
@@ -337,16 +482,16 @@ async def chat(req: ChatRequest):
                 json={
                     "model": LLM_MODEL,
                     "messages": llm_messages,
-                    "temperature": 0.7,
-                    "max_tokens": 600,
+                    "max_tokens": 2000,
                 },
             )
             resp.raise_for_status()
             data = resp.json()
             reply = (
-                data["choices"][0]["message"]["content"]
-                .strip()
-            )
+                data["choices"][0]["message"].get("content") or ""
+            ).strip()
+            if not reply:
+                raise ValueError("LLM returned empty content")
             return ChatResponse(reply=reply, source="llm")
     except Exception as exc:
         print(f"LLM call failed: {exc}")

@@ -29,7 +29,7 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Ali Hassan',
+                  'Ali Bux',
                   style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800),
                 ),
                 const Text(
