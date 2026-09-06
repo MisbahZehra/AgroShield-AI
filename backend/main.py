@@ -438,37 +438,6 @@ async def config_check():
     }
 
 
-@app.get("/debug/llm")
-async def debug_llm():
-    """Temporary debug endpoint — tests the LLM call and returns full details."""
-    import traceback
-    url = f"{LLM_BASE_URL}/chat/completions"
-    try:
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            resp = await client.post(
-                url,
-                headers={
-                    "Authorization": f"Bearer {LLM_API_KEY}",
-                    "Content-Type": "application/json",
-                },
-                json={
-                    "model": LLM_MODEL,
-                    "messages": [{"role": "user", "content": "Say hello"}],
-                    "max_tokens": 2000,
-                },
-            )
-            status = resp.status_code
-            body = resp.text
-            try:
-                data = resp.json()
-                reply = data["choices"][0]["message"].get("content", "")
-                return {"status": status, "reply": reply, "raw_keys": list(data.keys()), "choice_keys": list(data["choices"][0].keys()) if data.get("choices") else None, "message_keys": list(data["choices"][0]["message"].keys()) if data.get("choices") and data["choices"][0].get("message") else None}
-            except Exception as parse_err:
-                return {"status": status, "parse_error": str(parse_err), "raw_body": body[:1000]}
-    except Exception as exc:
-        return {"error": str(exc), "traceback": traceback.format_exc(), "url_attempted": url, "model": LLM_MODEL, "key_prefix": LLM_API_KEY[:10] + "..." if LLM_API_KEY else "NONE"}
-
-
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     # Build context
