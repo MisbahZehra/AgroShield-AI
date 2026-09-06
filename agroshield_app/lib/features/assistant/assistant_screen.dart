@@ -74,12 +74,16 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   }
 
   Future<void> _toggleMic() async {
+    final stt = ref.read(sttServiceProvider);
+
+    // Already listening → stop and send accumulated text
     if (_listening) {
-      await ref.read(sttServiceProvider).stopListening();
+      await stt.stopListening();
       if (mounted) setState(() => _listening = false);
       return;
     }
-    final stt = ref.read(sttServiceProvider);
+
+    // Start continuous listening
     if (!stt.isAvailable) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -92,14 +96,11 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     }
     setState(() => _listening = true);
     await stt.startListening(
-      onResult: (text) {
+      onFinished: (text) {
         if (text.trim().isNotEmpty) {
           _controller.text = text;
           _send(text);
         }
-        if (mounted) setState(() => _listening = false);
-      },
-      onDone: () {
         if (mounted) setState(() => _listening = false);
       },
     );
@@ -200,19 +201,6 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                       decoration:
                           InputDecoration(hintText: l.askAgroShield),
                       onSubmitted: _send,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  IconButton(
-                    onPressed: _toggleMic,
-                    icon: Icon(
-                      _listening ? Icons.mic : Icons.mic_none,
-                      color: _listening ? AppColors.danger : AppColors.primary,
-                    ),
-                    style: IconButton.styleFrom(
-                      backgroundColor: _listening
-                          ? AppColors.dangerLight
-                          : AppColors.primaryLight,
                     ),
                   ),
                   const SizedBox(width: 8),
