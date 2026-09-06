@@ -17,7 +17,7 @@ except ImportError:
 # Configuration — loaded from environment variables
 # ---------------------------------------------------------------------------
 LLM_API_KEY = os.environ.get("LLM_API_KEY", "").strip().strip('"').strip("'")
-LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.deepseek.com")
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.deepseek.com").rstrip("/")
 LLM_MODEL = os.environ.get("LLM_MODEL", "deepseek-chat")
 
 app = FastAPI(title="AgroShield AI Assistant", version="1.0.0")
