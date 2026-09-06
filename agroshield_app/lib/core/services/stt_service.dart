@@ -48,9 +48,9 @@ class SttService {
       },
       listenOptions: SpeechListenOptions(
         partialResults: false,
-        cancelOnError: true,
-        listenFor: const Duration(seconds: 30),
-        pauseFor: const Duration(seconds: 3),
+        cancelOnError: false,
+        listenFor: const Duration(seconds: 60),
+        pauseFor: const Duration(seconds: 4),
         localeId: _localeId,
       ),
     );

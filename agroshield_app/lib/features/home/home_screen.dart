@@ -153,33 +153,30 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   );
                 }
-                return Column(
-                  children: high
-                      .map((d) => AgroCard(
-                            color: AppColors.dangerLight,
-                            child: Row(
-                              children: [
-                                const Icon(Icons.warning_amber_rounded,
-                                    color: AppColors.danger),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    l.highRiskAlert('wheat'),
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        color: AppColors.danger,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.arrow_forward,
-                                      size: 18),
-                                  onPressed: () => context.push('/risk'),
-                                ),
-                              ],
-                            ),
-                          ))
-                      .toList(),
+                // Show a single deduplicated alert card
+                return AgroCard(
+                  color: AppColors.dangerLight,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.warning_amber_rounded,
+                          color: AppColors.danger),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          l.highRiskAlert('wheat'),
+                          style: const TextStyle(
+                              fontSize: 14,
+                              color: AppColors.danger,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.arrow_forward,
+                            size: 18),
+                        onPressed: () => context.push('/risk'),
+                      ),
+                    ],
+                  ),
                 );
               },
               loading: () => const Padding(

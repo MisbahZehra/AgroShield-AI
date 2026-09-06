@@ -21,17 +21,23 @@ class NotificationCenterScreen extends ConsumerWidget {
         data: (riskDays) {
           final alerts = <_AlertItem>[];
 
-          // Generate alerts from high-risk days
-          for (final d in riskDays) {
-            if (d.level.name == 'high') {
-              alerts.add(_AlertItem(
-                icon: Icons.warning_amber_rounded,
-                color: AppColors.danger,
-                title: l.highRiskAlert('crop'),
-                subtitle: _riskReason(d, l),
-                time: _formatDate(d.date),
-              ));
+          // Generate alerts from high-risk days (deduplicated — single summary alert)
+          final highRiskDays = riskDays.where((d) => d.level.name == 'high').toList();
+          if (highRiskDays.isNotEmpty) {
+            // Combine reasons from all high-risk days
+            final reasons = <String>[];
+            for (final d in highRiskDays) {
+              final reason = _riskReason(d, l);
+              final dateStr = _formatDate(d.date);
+              if (reason.isNotEmpty) reasons.add('$dateStr: $reason');
             }
+            alerts.add(_AlertItem(
+              icon: Icons.warning_amber_rounded,
+              color: AppColors.danger,
+              title: l.highRiskAlert('crop'),
+              subtitle: reasons.isNotEmpty ? reasons.join('\n') : l.highRiskAlert('crop'),
+              time: '${highRiskDays.length} ${l.fieldAlerts}',
+            ));
           }
 
           // Weather-based alert
