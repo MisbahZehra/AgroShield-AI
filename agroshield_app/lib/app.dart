@@ -78,7 +78,6 @@ class _AgroShieldAppState extends ConsumerState<AgroShieldApp> {
     super.initState();
     ref.read(connectivityServiceProvider).init();
     ref.read(ttsServiceProvider).init();
-    ref.read(sttServiceProvider).init();
   }
 
   @override
@@ -88,7 +87,6 @@ class _AgroShieldAppState extends ConsumerState<AgroShieldApp> {
     ref.listen<Locale?>(localeProvider, (prev, next) {
       if (next != null) {
         ref.read(ttsServiceProvider).setLanguage(next.languageCode);
-        ref.read(sttServiceProvider).setLanguage(next.languageCode);
       }
     });
     return MaterialApp.router(

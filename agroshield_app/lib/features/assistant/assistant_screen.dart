@@ -23,22 +23,6 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   final _controller = TextEditingController();
   final _messages = <_Message>[];
   bool _busy = false;
-  bool _listening = false;
-  String _sttStatus = 'STT: not initialized';
-  String _sttError = '';
-
-  @override
-  void initState() {
-    super.initState();
-    // Wire up STT status callback for on-screen debug display
-    final stt = ref.read(sttServiceProvider);
-    stt.onStatusChanged = (status) {
-      if (mounted) setState(() => _sttStatus = status);
-    };
-    // Pick up current status in case init already completed
-    _sttStatus = stt.statusText;
-    _sttError = stt.lastError;
-  }
 
   @override
   void dispose() {
@@ -85,52 +69,6 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
         _messages.add(_Message(false, answer));
         _busy = false;
       });
-    }
-  }
-
-  Future<void> _toggleMic() async {
-    final stt = ref.read(sttServiceProvider);
-    debugPrint('ToggleMic: listening=$_listening, sttAvailable=${stt.isAvailable}');
-
-    // Already listening → stop and send accumulated text
-    if (_listening) {
-      await stt.stopListening();
-      if (mounted) setState(() => _listening = false);
-      return;
-    }
-
-    // Start continuous listening
-    if (!stt.isAvailable) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text(
-                  'Speech recognition not available on this device')),
-        );
-      }
-      return;
-    }
-    setState(() => _listening = true);
-    await stt.startListening(
-      onFinished: (text) {
-        debugPrint('ToggleMic: onFinished called with "${text.length > 50 ? text.substring(0, 50) : text}"');
-        if (text.trim().isNotEmpty) {
-          _controller.text = text;
-          _send(text);
-        }
-        if (mounted) setState(() => _listening = false);
-      },
-    );
-    // If we get here and STT didn't actually start, show feedback
-    if (mounted && !stt.isListening) {
-      debugPrint('ToggleMic: STT did not start listening');
-      setState(() => _listening = false);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Could not start voice recognition. Please try again.')),
-        );
-      }
     }
   }
 
@@ -211,39 +149,6 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
               ],
             ),
           ),
-          // Visible STT debug status indicator
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            color: _sttError.isNotEmpty
-                ? Colors.red.withValues(alpha: 0.1)
-                : _listening
-                    ? Colors.orange.withValues(alpha: 0.1)
-                    : Colors.grey.withValues(alpha: 0.1),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _sttStatus,
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: _sttError.isNotEmpty
-                        ? AppColors.danger
-                        : _listening
-                            ? Colors.orange.shade800
-                            : AppColors.textSecondary,
-                  ),
-                ),
-                if (_sttError.isNotEmpty)
-                  Text(
-                    _sttError,
-                    style: const TextStyle(
-                        fontSize: 10, color: AppColors.danger),
-                  ),
-              ],
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             child: Text(l.assistantDisclaimer,
@@ -262,22 +167,6 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                       decoration:
                           InputDecoration(hintText: l.askAgroShield),
                       onSubmitted: _send,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  IconButton(
-                    onPressed: _toggleMic,
-                    tooltip: 'Voice input',
-                    icon: Icon(
-                      _listening ? Icons.stop : Icons.mic,
-                      color: _listening
-                          ? Colors.white
-                          : AppColors.primary,
-                    ),
-                    style: IconButton.styleFrom(
-                      backgroundColor: _listening
-                          ? AppColors.danger
-                          : AppColors.primaryLight,
                     ),
                   ),
                   const SizedBox(width: 8),
