@@ -17,7 +17,7 @@ AgroShield AI puts a trained plant-pathologist in every farmer's pocket:
 - **Offline TFLite inference** — detect diseases in under 2 seconds, no internet needed
 - **32 disease classes** across 5 major crops (wheat, rice, corn, tomato, sugarcane)
 - **Verified treatment data** — real fungicide/insecticide product names, doses, and rates sourced from Pakistani agricultural research
-- **Multilingual** — English, Urdu, Sindhi, and Pashto interface
+- **Multilingual** — English, Urdu, Sindhi, and Punjabi interface
 - **AI assistant** — ask questions in natural language (English or Roman Urdu) and get grounded answers
 - **7-day risk forecasting** — weather-aware disease risk alerts using OpenWeather API
 - **Accessibility-first** — text-to-speech on every screen for low-literacy users
@@ -44,7 +44,7 @@ AgroShield AI puts a trained plant-pathologist in every farmer's pocket:
 │        │              │              │               │
 │        ▼              ▼              ▼               │
 │  ┌──────────┐  ┌──────────┐  ┌──────────────────┐  │
-│  │ OpenWeather│  │ DeepSeek │  │ SharedPreferences│  │
+│  │ OpenWeather│  │ Gemini   │  │ SharedPreferences│  │
 │  │ API       │  │ LLM via  │  │ + SQLite         │  │
 │  │ (weather) │  │ FastAPI  │  │ (persistence)    │  │
 │  └──────────┘  └──────────┘  └──────────────────┘  │
@@ -53,7 +53,7 @@ AgroShield AI puts a trained plant-pathologist in every farmer's pocket:
                         ▼
               ┌──────────────────┐
               │  FastAPI Backend  │
-              │  (DeepSeek LLM)  │
+              │  (Gemini LLM)    │
               └──────────────────┘
 ```
 
@@ -68,7 +68,7 @@ AgroShield AI puts a trained plant-pathologist in every farmer's pocket:
 | **Navigation** | go_router |
 | **On-device ML** | TensorFlow Lite (FP16 quantized model) |
 | **Camera** | camera + image_picker |
-| **Backend (LLM)** | FastAPI (Python) → DeepSeek Chat API |
+| **Backend (LLM)** | FastAPI (Python) → Google Gemini API |
 | **Weather** | OpenWeather API + GPS geolocation |
 | **Persistence** | SQLite (sqflite) + SharedPreferences |
 | **Localization** | gen-l10n (ARB-based, 4 languages) |
@@ -104,12 +104,12 @@ Classes without verified data show *"Verified treatment information is currently
 
 ### AI Assistant
 - **Offline mode** — keyword-matched Q&A against the verified knowledge base (English + Roman Urdu)
-- **Online mode** — FastAPI backend routes questions to DeepSeek LLM with RAG-grounded context
+- **Online mode** — FastAPI backend routes questions to Google Gemini LLM with RAG-grounded context
 - **Conversation memory** — multi-turn chat with pronoun resolution
 - **Scan context** — assistant knows your last scan result for follow-up questions
 
 ### Accessibility & Localization
-- **4 languages** — English, Urdu, Sindhi, Pashto
+- **4 languages** — English, Urdu, Sindhi, Punjabi
 - **Text-to-speech** — audio button on every informational screen
 - **Dark mode** — system/light/dark theme toggle
 
@@ -158,9 +158,8 @@ AgroShield-AI/
 │   │   └── images/          # Crop illustrations and samples
 │   └── test/                # Unit tests
 ├── backend/                 # FastAPI LLM assistant
-│   ├── main.py              # /chat endpoint → DeepSeek
+│   ├── main.py              # /chat endpoint → Gemini
 │   ├── requirements.txt
-│   ├── render.yaml          # Render.com deployment config
 │   └── Procfile
 └── README.md
 ```
@@ -181,7 +180,8 @@ export PATH=/path/to/flutter/bin:$PATH
 export JAVA_HOME=/path/to/jdk17
 
 flutter build apk --release \
-  --dart-define=OPENWEATHER_API_KEY=your_key_here
+  --dart-define=OPENWEATHER_API_KEY=your_key_here \
+  --dart-define=ASSISTANT_BACKEND_URL=https://your-app.up.railway.app
 ```
 
 ### Run the Backend
@@ -189,22 +189,25 @@ flutter build apk --release \
 cd backend
 pip install -r requirements.txt
 
-# Create .env file with your DeepSeek API key
-echo 'LLM_API_KEY=your_deepseek_key_here' > .env
-echo 'LLM_BASE_URL=https://api.deepseek.com' >> .env
-echo 'LLM_MODEL=deepseek-chat' >> .env
+# Create .env file with your Gemini API key
+echo 'LLM_API_KEY=your_gemini_api_key_here' > .env
+echo 'LLM_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/' >> .env
+echo 'LLM_MODEL=gemini-3.5-flash' >> .env
 
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-### Deploy Backend to Render.com
+### Deploy Backend to Railway
 1. Push the `backend/` folder to your GitHub repo
-2. Create a new **Web Service** on [Render.com](https://render.com)
+2. Create a new service on [Railway](https://railway.com) from your GitHub repo
 3. Set **Root Directory** → `backend`
-4. Build command → `pip install -r requirements.txt`
-5. Start command → `uvicorn main:app --host 0.0.0.0 --port $PORT`
-6. Add env var `LLM_API_KEY` with your DeepSeek key
-7. Rebuild the APK with `--dart-define=ASSISTANT_BACKEND_URL=https://your-app.onrender.com`
+4. Start command → `uvicorn main:app --host 0.0.0.0 --port $PORT`
+5. Add env vars on Railway dashboard:
+   - `LLM_API_KEY` — your Gemini API key
+   - `LLM_BASE_URL` — `https://generativelanguage.googleapis.com/v1beta/openai/`
+   - `LLM_MODEL` — `gemini-3.5-flash`
+   - `LLM_PROVIDER` — `gemini`
+6. Rebuild the APK with `--dart-define=ASSISTANT_BACKEND_URL=https://your-app.up.railway.app`
 
 ---
 
@@ -236,7 +239,7 @@ Tests cover:
 | **Source citations** | Every recommendation links to its research origin for data integrity |
 | **Roman Urdu support** | Most farmers type in Roman Urdu, not formal Urdu script |
 | **Riverpod over Provider** | Better testability, compile-time safety, and async support |
-| **FastAPI backend** | Lightweight Python server for LLM proxy; easy to deploy on free tiers |
+| **Gemini LLM backend** | Free-tier cloud deployment for intelligent Q&A; falls back to offline knowledge base |
 | **SharedPreferences + SQLite** | Offline-first persistence for scan history, settings, and farm info |
 
 ---
