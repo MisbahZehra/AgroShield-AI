@@ -24,6 +24,21 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   final _messages = <_Message>[];
   bool _busy = false;
   bool _listening = false;
+  String _sttStatus = 'STT: not initialized';
+  String _sttError = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // Wire up STT status callback for on-screen debug display
+    final stt = ref.read(sttServiceProvider);
+    stt.onStatusChanged = (status) {
+      if (mounted) setState(() => _sttStatus = status);
+    };
+    // Pick up current status in case init already completed
+    _sttStatus = stt.statusText;
+    _sttError = stt.lastError;
+  }
 
   @override
   void dispose() {
@@ -192,6 +207,39 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                   const Padding(
                     padding: EdgeInsets.all(8),
                     child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+              ],
+            ),
+          ),
+          // Visible STT debug status indicator
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            color: _sttError.isNotEmpty
+                ? Colors.red.withValues(alpha: 0.1)
+                : _listening
+                    ? Colors.orange.withValues(alpha: 0.1)
+                    : Colors.grey.withValues(alpha: 0.1),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _sttStatus,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: _sttError.isNotEmpty
+                        ? AppColors.danger
+                        : _listening
+                            ? Colors.orange.shade800
+                            : AppColors.textSecondary,
+                  ),
+                ),
+                if (_sttError.isNotEmpty)
+                  Text(
+                    _sttError,
+                    style: const TextStyle(
+                        fontSize: 10, color: AppColors.danger),
                   ),
               ],
             ),
